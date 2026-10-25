@@ -210,6 +210,7 @@ func TestWebhookVectors(t *testing.T) {
 	var fixtures struct {
 		Vectors []struct {
 			Name, Body, Secret string
+			SecretFixture      string `json:"secret_fixture"`
 			Headers            map[string]string
 			Now                int64
 			Valid              bool
@@ -218,6 +219,21 @@ func TestWebhookVectors(t *testing.T) {
 	if json.Unmarshal(raw, &fixtures) != nil {
 		t.Fatal("fixtures")
 	}
+	// Only deterministic, publicly documented test bytes. No live credentials.
+	for i := range fixtures.Vectors {
+		vector := &fixtures.Vectors[i]
+		if vector.SecretFixture != "" {
+			if vector.SecretFixture != "repeat_X_32" && vector.SecretFixture != "repeat_Y_32" {
+				t.Fatal("INVALID_TEST_FIXTURE")
+			}
+			char := byte('X')
+			if vector.SecretFixture == "repeat_Y_32" {
+				char = 'Y'
+			}
+			vector.Secret = "whsec_" + base64.StdEncoding.EncodeToString(bytes.Repeat([]byte{char}, 32))
+		}
+	}
+
 	for _, v := range fixtures.Vectors {
 		t.Run(v.Name, func(t *testing.T) {
 			event, e := VerifyWebhook([]byte(v.Body), v.Headers, v.Secret, time.Unix(v.Now, 0))

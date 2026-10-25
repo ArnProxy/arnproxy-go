@@ -1,12 +1,12 @@
 # ARNPROXY SDK for Go
 
-Version **1.1.0** · MIT · Go 1.22+; standard library only.
+Version **1.1.1** · MIT · Go 1.22+; standard library only.
 
 Source client for https://www.arnproxy.com/account/api/v1/ . Covers all **77 documented resources** through a generic request method, plus account/capabilities convenience methods and webhook HMAC verification. This client is for ARNPROXY, not a direct connection to an upstream provider.
 
 ## Installation
 
-After this GitHub repository has been published and tagged: `go get github.com/arnproxy/arnproxy-go@v1.1.0`.
+After this GitHub repository has been published and tagged: `go get github.com/arnproxy/arnproxy-go@v1.1.1`.
 
 Keep the included resources.json at its shipped location. Set your own existing API key in the **server-side** ARNPROXY_API_KEY environment variable; never put it in source code, a URL or a browser app. Downloading or installing this library does **not** grant API access. Access is still controlled on the server; the current rollout remains test-account-only.
 
@@ -49,3 +49,5 @@ MIT, copyright 2026 ARNPROXY. The license covers this SDK only, not the hosted p
 `go test ./...`
 
 Uses synthetic fixtures and mocked transports only. No real API key or hosted API call is required. GitHub Actions runs this check on pushes and pull requests.
+
+Public synthetic test-key recipes are documented in [TESTING.md](TESTING.md). Never use them with a live service.

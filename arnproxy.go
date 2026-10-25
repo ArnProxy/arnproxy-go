@@ -24,7 +24,7 @@ import (
 	"unicode/utf8"
 )
 
-const Version = "1.1.0"
+const Version = "1.1.1"
 const BaseURL = "https://www.arnproxy.com/account/api/v1/"
 const maxBytes = 2 * 1024 * 1024
 
